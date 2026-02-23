@@ -1,0 +1,51 @@
+[package]
+name = "binance-fapi-lightning-router"
+version = "0.1.0"
+edition = "2021"
+description = "Zero-allocation, ultra-low latency execution router for Binance Futures"
+authors = ["Independent Quant Engineer"]
+publish = false
+
+# ==========================================
+# Core Dependencies
+# ==========================================
+[dependencies]
+# Async runtime & networking
+tokio = { version = "1.35", features = ["rt-multi-thread", "net", "time", "macros", "signal"] }
+tokio-tungstenite = { version = "0.21", features = ["rustls-tls-native-roots"] }
+futures-util = "0.3"
+url = "2.5"
+
+# High-performance concurrent data structures
+dashmap = "5.5"
+
+# Serialization / Deserialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Cryptography & Hashing (Required for Binance API signatures)
+hmac = "0.12"
+sha2 = "0.10"
+hex = "0.4"
+
+# Zero-overhead structured logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# ==========================================
+# High-Performance Compilation Profiles (HFT Standard)
+# ==========================================
+[profile.release]
+opt-level = 3          # Maximum optimization level for speed
+lto = "fat"            # Full Link-Time Optimization across all crates to maximize performance
+codegen-units = 1      # Single-thread code generation. Slows compilation but maximizes runtime speed
+panic = "abort"        # Disable stack unwinding. Immediate physical death on panic for maximum safety in trading
+strip = true           # Strip debug symbols to reduce binary size and improve I-Cache hit rate
+
+# ==========================================
+# Dev Profile Override (Local Testing)
+# ==========================================
+# Rationale: Compile all 3rd-party dependencies at opt-level 3 during local 'cargo run' tests.
+# Keeps your own code compiling fast in dev mode while ensuring external libraries don't bottleneck testing.
+[profile.dev.package."*"]
+opt-level = 3
