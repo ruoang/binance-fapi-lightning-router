@@ -6,11 +6,11 @@ use tokio::time::{sleep, Duration};
 use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 use futures_util::{StreamExt, SinkExt};
 use dashmap::DashMap;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use hmac::{Hmac, Mac};
 use sha2::Sha256;
 use url::Url;
-use tracing::{info, warn, error, Level};
+use tracing::{info, error, Level};
 use tracing_subscriber::FmtSubscriber;
 
 type HmacSha256 = Hmac<Sha256>;
