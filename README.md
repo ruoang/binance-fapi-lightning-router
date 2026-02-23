@@ -31,7 +31,7 @@ This repository demonstrates a production-grade execution router that bypasses R
 ### Running the Router
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/binance-fapi-lightning-router.git](https://github.com/yourusername/binance-fapi-lightning-router.git)
+   git clone https://github.com/ruoang/binance-fapi-lightning-router.git
    cd binance-fapi-lightning-router
 
 2. Set your environment variables:
